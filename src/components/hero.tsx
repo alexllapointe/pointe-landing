@@ -211,7 +211,7 @@ export function Hero() {
 
         {/* Examples section */}
         <motion.div
-          className="mt-32 border-t border-border/40 pt-20"
+          className="mt-32 pt-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}

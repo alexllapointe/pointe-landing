@@ -1,27 +1,51 @@
 "use client"
 
-import Cal, { getCalApi } from "@calcom/embed-react"
-import { useEffect } from "react"
+import dynamic from "next/dynamic"
+import { useEffect, useRef, useState } from "react"
+
+const Cal = dynamic(() => import("@calcom/embed-react").then((mod) => mod.default), {
+  ssr: false,
+})
 
 export default function BookPage() {
+  const [shouldLoad, setShouldLoad] = useState(false)
+  const calRef = useRef<HTMLDivElement>(null)
+  const hasLoadedRef = useRef(false)
+
   useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({ namespace: "20min" })
-      cal("ui", {
-        theme: "light",
-        hideEventTypeDetails: false,
-        layout: "month_view",
-        cssVarsPerTheme: {
-          light: {
-            "cal-brand": "#4ADE80",
-          },
-          dark: {
-            "cal-brand": "#4ADE80",
-          },
-        },
-      })
-    })()
+    if (hasLoadedRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true)
+          hasLoadedRef.current = true
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "200px" }
+    )
+
+    if (calRef.current) observer.observe(calRef.current)
+    return () => observer.disconnect()
   }, [])
+
+  useEffect(() => {
+    if (!shouldLoad) return
+      ; (async function () {
+        const { getCalApi } = await import("@calcom/embed-react")
+        const cal = await getCalApi({ namespace: "20min" })
+        cal("ui", {
+          theme: "light",
+          hideEventTypeDetails: false,
+          layout: "month_view",
+          cssVarsPerTheme: {
+            light: { "cal-brand": "#4ADE80" },
+            dark: { "cal-brand": "#4ADE80" },
+          },
+        })
+      })()
+  }, [shouldLoad])
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,12 +59,16 @@ export default function BookPage() {
           </p>
         </div>
 
-        <Cal
-          namespace="20min"
-          calLink="alex-lapointe/20min"
-          style={{ width: "100%", height: "100%", overflow: "scroll" }}
-          config={{ layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "light" }}
-        />
+        <div ref={calRef}>
+          {shouldLoad && (
+            <Cal
+              namespace="20min"
+              calLink="alex-lapointe/20min"
+              style={{ width: "100%", height: "100%", overflow: "scroll" }}
+              config={{ layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "light" }}
+            />
+          )}
+        </div>
       </div>
     </div>
   )

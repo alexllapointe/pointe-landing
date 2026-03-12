@@ -1,3 +1,5 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap");
+@import url("https://fonts.cdnfonts.com/css/pp-editorial-new");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -7,8 +9,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: "Satoshi", sans-serif;
+  --font-editorial: var(--font-editorial), "PP Editorial New", serif;
   --font-mono: var(--font-geist-mono);
+  --font-geist: var(--font-geist-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,24 +52,24 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #ffffff;
+  --foreground: #1a1919;
+  --card: #fcfbfa;
+  --card-foreground: #1a1919;
+  --popover: #fcfbfa;
+  --popover-foreground: #1a1919;
+  --primary: #2EE66B;
+  --primary-foreground: #1a1919;
+  --secondary: #f4f3ee;
+  --secondary-foreground: #1a1919;
+  --muted: #eeede8;
+  --muted-foreground: #6b6b6b;
+  --accent: #fcfbfa;
+  --accent-foreground: #1a1919;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: #e5e4df;
+  --input: #e5e4df;
+  --ring: #2EE66B;
   --chart-1: oklch(0.809 0.105 251.813);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
@@ -120,10 +124,17 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
-    @apply font-sans;
+    @apply scroll-smooth font-sans;
+  }
+
+  ::selection {
+    background-color: #2EE66B;
+    color: #1a1919;
   }
 }

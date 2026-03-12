@@ -1,6 +1,5 @@
 import { Hero } from "@/components/hero"
 import { Waitlist } from "@/components/waitlist"
-import { Footer } from "@/components/footer"
 
 export default function Home() {
   return (
@@ -9,7 +8,6 @@ export default function Home() {
         <Hero />
         <Waitlist />
       </div>
-      <Footer />
     </div>
   )
 }
